@@ -1,0 +1,13 @@
+{
+  "name": "claimlink-evidence-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "validate": "node scripts/validate-artifacts.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
