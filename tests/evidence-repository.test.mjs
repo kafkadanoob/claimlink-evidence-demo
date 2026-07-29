@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -25,4 +25,15 @@ test("validation fails closed when required artifacts are absent", async () => {
   } finally {
     await rm(emptyRoot, { recursive: true, force: true });
   }
+});
+
+test("the workflow exposes the exact evidence-check job name", async () => {
+  const workflow = await readFile(
+    ".github/workflows/evidence-check.yml",
+    "utf8",
+  );
+
+  assert.match(workflow, /jobs:\s*\n\s+evidence:\s*\n\s+name: evidence-check/);
+  assert.match(workflow, /run: npm test/);
+  assert.match(workflow, /run: npm run validate/);
 });
